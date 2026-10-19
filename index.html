@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<!-- DEV CITY - VERSÃO 7 (mobile-first, IA grátis, sem login) -->
+
+<html lang="pt-br">
+
+<!-- Cabeça(head) Configurações GERAIS do site -->
+
+<head>
+    <!-- Padrão Caracteres -->
+    <meta charset="UTF-8">
+
+    <!-- COMPATIVEL COM CELULARES E COMPUTADORES -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+    <!-- Como o site aparece quando alguém compartilha o link -->
+    <meta name="description" content="Escolha uma lenda de Dev City — ou entre no jogo: tire uma selfie e a IA grátis coloca você no estilo GTA.">
+    <meta name="theme-color" content="#150a24">
+    <meta property="og:title" content="DEV CITY — Não é só um jogo">
+    <meta property="og:description" content="Tire uma selfie e a IA grátis transforma você em personagem de Dev City.">
+    <meta property="og:image" content="img/background2.jpg">
+
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+        rel="stylesheet">
+    <!-- A fonte do logotipo do GTA (grátis, via cdnfonts) -->
+    <link href="https://fonts.cdnfonts.com/css/pricedown" rel="stylesheet">
+
+    <!-- A palmeirinha 🌴 que aparece na abinha do navegador -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%F0%9F%8C%B4</text></svg>">
+
+    <title>DEV CITY — Não é só um jogo</title>
+</head>
+
+<!-- TUDO QUE EU ENXERGO NO SITE -->
+
+<body>
+
+    <!-- ===== BARRA DE CIMA (estilo HUD de GTA) ===== -->
+    <header class="hud">
+        <div class="logo">DEV CITY<span class="logo-badge">VI</span></div>
+        <div class="dinheiro" id="dinheiro">$ 069.420</div>
+    </header>
+
+    <!-- ===== O PALCO ===== -->
+    <p class="nome">Jaque</p>
+    <img class="personagem" src="img/jaque-removebg-preview.png" alt="Personagem escolhido">
+
+    <!-- ===== OS TEXTOS (organizados: etiqueta / título / apoio / botão) ===== -->
+    <section class="textos">
+        <p class="etiqueta">Seleção de personagem</p>
+        <h1>Não é só<br>um jogo.</h1>
+        <p class="texto-apoio">Escolha uma lenda de Dev City — ou entre no jogo você também.</p>
+
+        <!-- O BOTÃO PRINCIPAL: destaca a selfie -->
+        <button class="botao-entrar" onclick="abrirEstudio()">
+            📸 ENTRAR NO JOGO
+        </button>
+        <p class="mini-dica">tire uma selfie · IA grátis · sem cadastro</p>
+        <p class="credito">projeto de estudo inspirado no mundo GTA</p>
+    </section>
+
+    <!-- ===== OS PERSONAGENS (cards com nome, estilo tela de seleção) ===== -->
+    <nav class="menu">
+        <button class="card selecionado" onclick="escolherCard('jaque', this)">
+            <img src="img/jaque-removebg-preview.png" alt="Jaque">
+            <span>JAQUE</span>
+        </button>
+        <button class="card" onclick="escolherCard('jason', this)">
+            <img src="img/jason.png" alt="Jason">
+            <span>JASON</span>
+        </button>
+        <button class="card" onclick="escolherCard('lucas', this)">
+            <img src="img/lucas.png" alt="Lucas">
+            <span>LUCAS</span>
+        </button>
+        <button class="card card-criar" onclick="abrirEstudio()">
+            <img src="img/Retrato Comic com Cachos e Neon Rosa.png" alt="">
+            <span>VOCÊ?</span>
+        </button>
+    </nav>
+
+    <!-- ==========================================================
+         ESTÚDIO SELFIE — 4 passos, um de cada vez:
+
+         PASSO 1 (foto)      - câmera: NATIVA no celular / webcam no PC
+         PASSO 2 (confirmar) - ver a selfie, escolher nome e cor
+         PASSO 3 (carregando)- tela de carregamento estilo GTA
+         PASSO 4 (resultado) - a arte pronta
+         ========================================================== -->
+
+    <div class="estudio escondido" id="estudio">
+
+        <button class="fechar" onclick="fecharEstudio()" title="Fechar">✖</button>
+
+        <!-- PASSO 1: FOTO -->
+        <div class="passo" id="passo-foto">
+
+            <p class="etiqueta">Modo selfie</p>
+            <h2>Entre no jogo</h2>
+            <p class="dica">Boa luz, rosto de frente e sorria 🔆</p>
+
+            <div class="palco-camera" id="palco-camera">
+                <video id="video" autoplay playsinline muted></video>
+                <div class="mira"></div>
+                <span class="cam-rec">● REC</span>
+                <span class="cam-nome">DEV CITY CAM</span>
+            </div>
+
+            <p class="aviso" id="aviso-camera"></p>
+
+            <button class="botao-principal" id="botao-capturar" onclick="acaoFoto()">📸 TIRAR FOTO</button>
+            <button class="botao-secundario" onclick="document.getElementById('arquivo-galeria').click()">
+                🖼️ ESCOLHER UMA FOTO QUE JÁ TENHO
+            </button>
+
+            <!-- capture = "user" abre DIRETO a câmera frontal no celular -->
+            <input type="file" id="arquivo-camera" accept="image/*" capture="user" onchange="usarArquivo(event)" hidden>
+            <input type="file" id="arquivo-galeria" accept="image/*" onchange="usarArquivo(event)" hidden>
+
+        </div>
+
+        <!-- PASSO 2: CONFIRMAR -->
+        <div class="passo escondido" id="passo-confirmar">
+
+            <p class="etiqueta">Sua selfie</p>
+            <h2>Ficou boa?</h2>
+
+            <canvas id="foto" width="512" height="512" class="preview"></canvas>
+
+            <label class="campo">
+                Seu nome de jogador
+                <input type="text" id="nome-jogador" maxlength="14" placeholder="Ex: Lucas, Jaque...">
+            </label>
+
+            <label class="campo">
+                Cor do seu nome
+                <span class="cores">
+                    <button class="cor selecionada" style="background-color: #ff3cac" onclick="escolherCor(this, '#ff3cac')" title="Rosa"></button>
+                    <button class="cor" style="background-color: #00d2ff" onclick="escolherCor(this, '#00d2ff')" title="Azul"></button>
+                    <button class="cor" style="background-color: #7ed37e" onclick="escolherCor(this, '#7ed37e')" title="Verde"></button>
+                    <button class="cor" style="background-color: #ffd319" onclick="escolherCor(this, '#ffd319')" title="Amarelo"></button>
+                </span>
+            </label>
+
+            <button class="botao-principal" onclick="colocarNoMundoGTA()">
+                🌴 ME COLOCAR NO MUNDO GTA
+            </button>
+            <p class="mini-dica">a IA recorta você da foto e coloca no cenário · tudo no seu aparelho 🔒</p>
+
+            <div class="escolha-alvo">
+                <span>…ou vire uma lenda (a IA troca seu rosto na arte):</span>
+                <div class="alvos">
+                    <button class="alvo selecionado" data-chave="jaque" onclick="escolherAlvo('jaque', this)">
+                        <img src="img/jaque-removebg-preview.png" alt="Jaque"><span>JAQUE</span>
+                    </button>
+                    <button class="alvo" data-chave="jason" onclick="escolherAlvo('jason', this)">
+                        <img src="img/jason.png" alt="Jason"><span>JASON</span>
+                    </button>
+                    <button class="alvo" data-chave="lucas" onclick="escolherAlvo('lucas', this)">
+                        <img src="img/lucas.png" alt="Lucas"><span>LUCAS</span>
+                    </button>
+                </div>
+            </div>
+
+            <button class="botao-secundario" id="botao-virar" onclick="virarPersonagem()">
+                🎭 VIRAR <span id="alvo-nome">JAQUE</span> AGORA
+            </button>
+            <button class="botao-secundario" onclick="voltarFoto()">🔁 ESCOLHER OUTRA FOTO</button>
+
+        </div>
+
+        <!-- PASSO 3: CARREGANDO (tela estilo GTA) -->
+        <div class="passo escondido" id="passo-carregando">
+
+            <img id="arte-carregando" class="arte-carregando" src="img/lucia.png" alt="">
+
+            <div class="carregador"></div>
+            <h2 id="mensagem-loading">Mandando sua selfie para a IA...</h2>
+            <div class="barra"><div class="barra-cheia"></div></div>
+            <p class="dica">Não feche esta janela — a IA grátis está trabalhando ✨</p>
+
+        </div>
+
+        <!-- PASSO 4: RESULTADO -->
+        <div class="passo escondido" id="passo-resultado">
+
+            <p class="etiqueta missao">🎬 Missão cumprida</p>
+            <h2 id="titulo-resultado">Você chegou à Dev City!</h2>
+
+            <img id="resultado" class="imagem-resultado" alt="Sua arte estilo GTA">
+
+            <p class="aviso" id="aviso-resultado"></p>
+
+            <button class="botao-principal" onclick="usarComoPersonagem()">⭐ ENTRAR NO JOGO</button>
+            <button class="botao-secundario" onclick="baixarResultado()">⬇️ SALVAR A IMAGEM</button>
+            <button class="botao-secundario" id="botao-repetir" onclick="repetirGeracao()">🎲 OUTRA VERSÃO</button>
+            <button class="botao-secundario" onclick="voltarFoto()">📸 NOVA SELFIE</button>
+
+        </div>
+
+    </div>
+
+    <!-- Nosso código (a lógica do site) -->
+    <script src="scripts.js"></script>
+
+</body>
+
+</html>

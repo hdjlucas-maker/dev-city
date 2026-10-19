@@ -1,0 +1,720 @@
+/* ==========================================================
+   DEV CITY — estilos (pensados PRIMEIRO para o celular!)
+
+   *  = tudo
+   .nome = quem tem a classe "nome"
+   ========================================================== */
+
+/* As cores do site ficam guardadas aqui, num lugar só:
+   se quiser trocar a cor principal, muda AQUI e pronto! */
+:root {
+    --rosa: #ff3cac;
+    --amarelo: #ffd319;
+    --verde-gta: #86e07e;
+    --fundo-escuro: #150a24;
+}
+
+* {
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Inter", system-ui;
+}
+
+html,
+body {
+    /* altura da tela inteira (dvh entende a barra do celular) */
+    min-height: 100dvh;
+}
+
+body {
+    /* imagem de fundo do jogo + uma sombra para o texto ficar legível */
+    background-image: linear-gradient(rgba(21, 10, 36, 0.30), rgba(21, 10, 36, 0.78)),
+        url("img/background2.jpg");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    overflow-x: hidden;
+}
+
+/* Título grande = fonte do logotipo do GTA (Pricedown) */
+.nome,
+h1,
+h2,
+.logo,
+.botao-principal,
+.botao-secundario,
+.botao-entrar,
+.card span,
+.etiqueta {
+    font-family: "Pricedown Bl", "Bangers", system-ui;
+    font-weight: 400;
+    letter-spacing: 1px;
+}
+
+/* uma sombrinha no rodapé: deixa os textos e os cards legíveis
+   mesmo quando o personagem tem cores escuras embaixo */
+body::after {
+    content: "";
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 210px;
+    background: linear-gradient(#00000000, #0a0514dd);
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* ===== BARRA DE CIMA (HUD) ===== */
+
+.hud {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 18px;
+    z-index: 5;
+}
+
+.logo {
+    color: #ffffff;
+    font-size: 24px;
+    /* sombra dura = cara de logotipo de jogo */
+    text-shadow: 3px 3px 0 #000000;
+}
+
+.logo-badge {
+    color: var(--rosa);
+    font-size: 18px;
+    margin-left: 4px;
+    vertical-align: top;
+    text-shadow: 2px 2px 0 #000000;
+}
+
+.dinheiro {
+    color: var(--verde-gta);
+    font-weight: 800;
+    font-size: 18px;
+    /* brilho verde do dinheiro :) */
+    text-shadow: 0 0 12px #86e07e88, 2px 2px 0 #000000;
+}
+
+/* ===== O PALCO (nome gigante + personagem) ===== */
+
+.nome {
+    position: absolute;
+    left: 0;
+    right: 0;
+    /* fica atrás do personagem */
+    top: 14vh;
+    text-align: center;
+    /* nomes curtos ficam GIGANTES; nomes compridos encolhem
+       sozinhos para caber na tela (a conta usa --letras, que o
+       JavaScript atualiza com o tamanho do nome) */
+    font-size: min(26vw, calc(132vw / var(--letras, 6)), 300px);
+    line-height: 0.85;
+    color: var(--rosa);
+    /* contorno preto = letreiro de GTA */
+    -webkit-text-stroke: 2px #00000099;
+    text-shadow: 6px 6px 0 #00000066;
+    /* não atrapalha os cliques */
+    pointer-events: none;
+    /* deixa o nome atrás do personagem */
+    z-index: 1;
+}
+
+.personagem {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+    /* fica em pé em cima do menu de cards */
+    bottom: 108px;
+    height: min(56vh, 420px);
+    width: auto;
+    z-index: 2;
+    pointer-events: none;
+    /* uma sombrinha no chão */
+    filter: drop-shadow(0 18px 30px #00000088);
+}
+
+/* .quadro = quando o personagem é uma arte GERADA (capa/pôster):
+   vira um quadrinho emoldurado, tipo loading screen do GTA */
+.personagem.quadro {
+    height: min(52vh, 400px);
+    border: 5px solid #ffffff;
+    border-radius: 16px;
+    background-color: #000000;
+    box-shadow: 0 24px 70px #000000aa;
+}
+
+/* ===== OS TEXTOS ===== */
+
+.textos {
+    position: absolute;
+    left: 18px;
+    bottom: 118px;
+    width: min(400px, calc(100% - 36px));
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 3;
+}
+
+.etiqueta {
+    color: var(--amarelo);
+    font-size: 16px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+h1 {
+    color: #ffffff;
+    font-size: clamp(38px, 10vw, 76px);
+    line-height: 0.95;
+    text-shadow: 4px 4px 0 #00000066;
+}
+
+.texto-apoio {
+    color: #ffffffcc;
+    font-size: 13px;
+    line-height: 1.45;
+}
+
+/* O BOTÃO PRINCIPAL que destaca a selfie */
+.botao-entrar {
+    margin-top: 4px;
+    padding: 14px 22px;
+    font-size: 20px;
+    color: #1a0810;
+    border: none;
+    border-radius: 999px;
+    cursor: pointer;
+    /* degradê rosa -> amarelo (cores do pôr do sol) */
+    background: linear-gradient(100deg, var(--rosa), var(--amarelo));
+    box-shadow: 0 10px 30px #ff3cac55, 0 4px 0 #00000055;
+    transition: transform 0.15s;
+    /* dá uma pulsadinha para chamar atenção */
+    animation: chamar 2.4s infinite;
+}
+
+@keyframes chamar {
+    50% {
+        transform: scale(1.035);
+        box-shadow: 0 14px 40px #ffd31977, 0 4px 0 #00000055;
+    }
+}
+
+.mini-dica {
+    color: #ffffff99;
+    font-size: 12px;
+}
+
+.credito {
+    color: #ffffff55;
+    font-size: 11px;
+}
+
+/* ===== OS CARDS DOS PERSONAGENS ===== */
+
+.menu {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 10px;
+    padding: 0 12px;
+    z-index: 4;
+    /* se tiver muitos cards, desliza para o lado */
+    overflow-x: auto;
+}
+
+.card {
+    background: #1a0b2ecc;
+    border: 2px solid #ffffff22;
+    border-radius: 16px;
+    padding: 6px;
+    width: 74px;
+    flex-shrink: 0;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    transition: transform 0.15s, border-color 0.15s;
+    backdrop-filter: blur(6px);
+}
+
+.card img {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    object-fit: cover;
+    object-position: top;
+    display: block;
+}
+
+.card span {
+    color: #ffffff99;
+    font-size: 11px;
+    letter-spacing: 1px;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+}
+
+/* .selecionado = o personagem escolhido no momento */
+.card.selecionado {
+    border-color: var(--amarelo);
+    box-shadow: 0 0 18px #ffd31966;
+}
+
+.card.selecionado span {
+    color: var(--amarelo);
+}
+
+/* O card especial "VOCÊ?" que destaca a selfie */
+.card-criar {
+    border-style: dashed;
+    border-color: var(--rosa);
+    animation: brilhar 2s infinite;
+}
+
+.card-criar span {
+    color: var(--rosa);
+}
+
+@keyframes brilhar {
+    50% {
+        box-shadow: 0 0 22px #ff3cac88;
+        border-color: var(--amarelo);
+    }
+}
+
+/* ==========================================================
+   ESTÚDIO SELFIE (a janelinha dos 4 passos)
+   ========================================================== */
+
+.estudio {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(10, 5, 20, 0.94);
+    backdrop-filter: blur(8px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 24px 16px 32px;
+    z-index: 10;
+    overflow-y: auto;
+}
+
+/* .escondido tira o elemento da tela (mas ele continua no HTML) */
+.escondido {
+    display: none !important;
+}
+
+.estudio .passo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    width: min(430px, 100%);
+    text-align: center;
+}
+
+.estudio h2 {
+    font-size: 34px;
+    color: #ffffff;
+    line-height: 1;
+    text-shadow: 3px 3px 0 #00000066;
+}
+
+.estudio .dica {
+    font-size: 13px;
+    color: #ffffffb0;
+    line-height: 1.5;
+}
+
+.estudio .aviso {
+    font-size: 13px;
+    color: var(--amarelo);
+    min-height: 18px;
+}
+
+.etiqueta.missao {
+    font-size: 20px;
+    color: var(--amarelo);
+}
+
+.fechar {
+    position: fixed;
+    top: 14px;
+    right: 14px;
+    font-size: 18px;
+    background-color: #ffffff22;
+    color: #ffffff;
+    border: none;
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    cursor: pointer;
+    z-index: 11;
+}
+
+/* ===== PASSO 1: câmera ===== */
+
+.palco-camera {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 24px;
+    overflow: hidden;
+    border: 3px solid var(--rosa);
+    background-color: #000000;
+}
+
+#video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* espelha a câmera, como um espelho de verdade */
+    transform: scaleX(-1);
+}
+
+/* o círculo que guia onde o rosto deve ficar */
+.mira {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 62%;
+    aspect-ratio: 1 / 1;
+    border: 3px dashed #ffffffaa;
+    border-radius: 50%;
+    pointer-events: none;
+    animation: pulsar 2s infinite;
+}
+
+@keyframes pulsar {
+    50% {
+        transform: translate(-50%, -50%) scale(1.06);
+        border-color: var(--amarelo);
+    }
+}
+
+/* etiquetinhas da "câmera do jogo" */
+.cam-rec {
+    position: absolute;
+    top: 12px;
+    left: 14px;
+    color: #ff5a5a;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    animation: piscar 1.2s infinite;
+}
+
+@keyframes piscar {
+    50% {
+        opacity: 0.25;
+    }
+}
+
+.cam-nome {
+    position: absolute;
+    bottom: 12px;
+    left: 14px;
+    color: #ffffffcc;
+    font-size: 11px;
+    letter-spacing: 2px;
+}
+
+/* ===== PASSO 2: confirmar ===== */
+
+.preview {
+    width: min(260px, 68vw);
+    border-radius: 20px;
+    border: 4px solid #ffffff;
+    box-shadow: 0 16px 40px #00000088;
+}
+
+.campo {
+    font-size: 13px;
+    color: #ffffffcc;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    text-align: left;
+    align-items: center;
+}
+
+.campo input {
+    font-size: 16px;
+    padding: 12px;
+    border-radius: 12px;
+    border: none;
+    outline: none;
+    width: 100%;
+    text-align: center;
+}
+
+.cores {
+    display: flex;
+    gap: 12px;
+}
+
+.cor {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 3px solid #ffffff44;
+    cursor: pointer;
+}
+
+.cor.selecionada {
+    border: 3px solid #ffffff;
+    transform: scale(1.18);
+}
+
+/* ===== ESCOLHA DE QUEM VIRAR (troca de rosto) ===== */
+
+.escolha-alvo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+}
+
+.escolha-alvo > span {
+    font-size: 12px;
+    color: #ffffff99;
+}
+
+.alvos {
+    display: flex;
+    gap: 12px;
+}
+
+.alvo {
+    background-color: #1a0b2ecc;
+    border: 2px solid #ffffff22;
+    border-radius: 14px;
+    padding: 5px 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    cursor: pointer;
+    transition: border-color 0.15s, transform 0.15s;
+}
+
+.alvo img {
+    width: 44px;
+    height: 44px;
+    border-radius: 9px;
+    object-fit: cover;
+    object-position: top;
+    display: block;
+}
+
+.alvo span {
+    font-family: "Pricedown Bl", "Bangers", system-ui;
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: #ffffff99;
+}
+
+.alvo.selecionado {
+    border-color: var(--amarelo);
+    box-shadow: 0 0 14px #ffd31966;
+}
+
+.alvo.selecionado span {
+    color: var(--amarelo);
+}
+
+/* ===== PASSO 3: carregando (estilo tela do GTA) ===== */
+
+.arte-carregando {
+    width: 58%;
+    max-height: 32vh;
+    object-fit: contain;
+    filter: drop-shadow(0 16px 30px #000000aa);
+    transition: opacity 0.5s;
+}
+
+.carregador {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: 8px solid #ffffff33;
+    border-top-color: var(--amarelo);
+    animation: girar 1s linear infinite;
+}
+
+@keyframes girar {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+#mensagem-loading {
+    font-size: 24px;
+}
+
+/* a barrinha de progresso que enche devagar */
+.barra {
+    width: min(280px, 80%);
+    height: 10px;
+    background-color: #ffffff22;
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.barra-cheia {
+    height: 100%;
+    width: 4%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--rosa), var(--amarelo));
+    animation: encher 55s ease-out forwards;
+}
+
+@keyframes encher {
+    to {
+        width: 92%;
+    }
+}
+
+/* ===== PASSO 4: resultado ===== */
+
+.imagem-resultado {
+    max-height: 48vh;
+    max-width: 100%;
+    border-radius: 14px;
+    border: 4px solid #ffffff;
+    box-shadow: 0 0 0 7px #000000, 0 20px 60px #000000aa;
+}
+
+/* ===== BOTÕES DO ESTÚDIO ===== */
+
+.botao-principal,
+.botao-secundario {
+    font-size: 19px;
+    padding: 13px 24px;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    transition: transform 0.15s, filter 0.15s;
+}
+
+.botao-principal {
+    background-color: var(--amarelo);
+    color: #1a1a1a;
+}
+
+.botao-secundario {
+    background-color: #ffffff1c;
+    color: #ffffff;
+    font-size: 15px;
+    padding: 11px 20px;
+    border: 1px solid #ffffff2e;
+}
+
+.botao-principal:hover,
+.botao-secundario:hover,
+.botao-entrar:hover {
+    transform: scale(1.02);
+    filter: brightness(1.08);
+}
+
+/* ==========================================================
+   COMPUTADOR (telas maiores que 900px). No celular, o de cima.
+   ========================================================== */
+
+@media (min-width: 900px) {
+
+    .logo {
+        font-size: 30px;
+    }
+
+    .dinheiro {
+        font-size: 22px;
+    }
+
+    .nome {
+        top: 8vh;
+        font-size: min(18vw, calc(132vw / var(--letras, 6)), 300px);
+    }
+
+    .personagem {
+        height: min(64vh, 620px);
+        bottom: 120px;
+    }
+
+    .textos {
+        left: 48px;
+        bottom: 150px;
+        width: 380px;
+    }
+
+    h1 {
+        font-size: 64px;
+    }
+
+    .texto-apoio {
+        font-size: 15px;
+    }
+
+    .botao-entrar {
+        font-size: 22px;
+        padding: 16px 26px;
+    }
+
+    .menu {
+        gap: 16px;
+    }
+
+    .card {
+        width: 92px;
+    }
+
+    .card img {
+        width: 76px;
+        height: 76px;
+    }
+
+    .card span {
+        font-size: 13px;
+    }
+
+    .preview {
+        width: 270px;
+    }
+
+    .imagem-resultado {
+        max-height: 56vh;
+    }
+}
+
+/* 
+    PROPRIEDADES que usamos aqui:
+    position: absolute = o elemento flutua, posicionado pelos lados
+    fixed = fica colado na tela mesmo rolando a página
+    z-index = quem fica na frente de quem (número maior = mais na frente)
+    clamp(mín, ideal, máx) = o tamanho se adapta à tela
+*/
